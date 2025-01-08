@@ -148,3 +148,25 @@ sudo usermod -aG docker $USER
 ```bash
 newgrp docker
 ```
+
+
+
+# Paso a paso para el desarrollo - Workflow
+
+Se puede trabajar en el submodulo union. Se hace commit, luego de realizar los cambios. 
+
+
+## Para actualizar los submódulos al último commit
+git submodule update --remote --merge
+
+## Para actualizar un sólo submódulo al último commit
+git submodule update --remote --merge <path-to-submodule>
+
+Luego de modificar los cambios, se debe correr el script para copiar los modulos actualizados a custom-addons
+
+```bash
+bash copy_addons.sh
+```
+
+## Se puede trabajar sobre un branch de desarrollo propia? 
+

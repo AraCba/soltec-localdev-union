@@ -1,16 +1,22 @@
-# SolTec LocalDev
+# Union Local-Dev
 
-Entorno de desarrollo local para la imagen de *Odoo* del programa SolTec.
+Entorno de desarrollo local para los módulos de sindicato.
 
 Para utilizar este enterno necesitamos tener instalados ***Docker*** y ***Git***. Para instalarlos en *Ubuntu* o *Debian* se puede seguir [este](#instalación) instructivo.
 
 ## Uso
 
-Para clonar el repositorio:
+Para clonar el repositorio y los submódulos:
 
 ```bash
-git clone https://github.com/Mueve-TEC/soltec-localdev.git
-cd soltec-localdev
+git clone --recurse-submodules git@github.com:AraCba/soltec-localdev-union.git
+cd soltec-localdev-union
+```
+
+Para actualizar los submódulos a su última versión
+
+```bash
+git submodule update --remote
 ```
 
 ### Docker Compose
@@ -57,13 +63,7 @@ docker-compose build --no-cache
 
 Para un mejor control de versiones, se pueden integrar los módulos de *Odoo* directamente desde su repositorio agregandolos como submódulos de *Git*.
 
-1. Creamos el directorio para los submódulos:
-
-```bash
-mkdir submodules
-```
-
-2. Luego agregamos los repositorios como submódulos:
+1. Agregamos los repositorios como submódulos:
 
 ```bash
 cd submodules
@@ -71,39 +71,39 @@ git submodule add <link-al-repositorio>
 cd ..
 ```
 
-3. Ejecutamos el script para copiar el contenido necesario de los módulos al directorio [**`custom-addons/`**](/custom-addons/):
+2. Ejecutamos el script para copiar el contenido necesario de los módulos al directorio [**`custom-addons/`**](/custom-addons/):
 
 ```bash
 bash copy_addons.sh
 ```
 
-4. Por último creamos nuevamente la imagen para finalmente integrar los módulos:
+3. Por último creamos nuevamente la imagen para finalmente integrar los módulos:
 
 ```bash
 docker-compose build --no-cache
 ```
 
-## Conexión de la base de datos con _Pgadmin4_
+## Conexión de la base de datos con *Pgadmin4*
 
-Para un mejor manejo y visualización de las bases de datos se incluye _Pgadmin4_, para utilizarlo seguimos los siguientes pasos:
+Para un mejor manejo y visualización de las bases de datos se incluye *Pgadmin4*, para utilizarlo seguimos los siguientes pasos:
 
-1. Con la imagen corriendo nos dirigimos a [localhost:5050](http://localhost:5050) para abrir la interfaz gráfica de _Pgadmin4_ y nos logueamos con las credenciales configuradas en el [`docker-compose.yml`](/docker-compose.yml):
+1. Con la imagen corriendo nos dirigimos a [localhost:5050](http://localhost:5050) para abrir la interfaz gráfica de *Pgadmin4* y nos logueamos con las credenciales configuradas en el [`docker-compose.yml`](/docker-compose.yml):
 
     - Email Address / Username : `admin@hola.com`
     - Password: `admin`
 
-2. Presionamos en _`Add new server`_.
+2. Presionamos en *`Add new server`*.
 
-3. Agregamos un nombre a la base de datos, _odoo_ por ejemplo.
+3. Agregamos un nombre a la base de datos, *odoo* por ejemplo.
 
-4. Luego nos dirigimos al campo _`Connection`_ y completamos los siguientes campos:
+4. Luego nos dirigimos al campo *`Connection`* y completamos los siguientes campos:
 
-    -  Host name/address: `db`
-    -  Port: `5432`
-    -  Username: `odoo`
-    -  Password: `odoo`
+    - Host name/address: `db`
+    - Port: `5432`
+    - Username: `odoo`
+    - Password: `odoo`
 
-5. Presionamos _`Save`_ para guardar los cambios y agregar la conexión.
+5. Presionamos *`Save`* para guardar los cambios y agregar la conexión.
 
 ## Instalación
 
@@ -149,17 +149,16 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
+## Paso a paso para el desarrollo - Workflow
 
+Se puede trabajar en el submodulo union. Se hace commit, luego de realizar los cambios.
 
-# Paso a paso para el desarrollo - Workflow
+### Para actualizar los submódulos al último commit
 
-Se puede trabajar en el submodulo union. Se hace commit, luego de realizar los cambios. 
-
-
-## Para actualizar los submódulos al último commit
 git submodule update --remote --merge
 
-## Para actualizar un sólo submódulo al último commit
+### Para actualizar un sólo submódulo al último commit
+
 git submodule update --remote --merge <path-to-submodule>
 
 Luego de modificar los cambios, se debe correr el script para copiar los modulos actualizados a custom-addons
@@ -168,5 +167,4 @@ Luego de modificar los cambios, se debe correr el script para copiar los modulos
 bash copy_addons.sh
 ```
 
-## Se puede trabajar sobre un branch de desarrollo propia? 
-
+### Se puede trabajar sobre un branch de desarrollo propia?

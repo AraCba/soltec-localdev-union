@@ -1,4 +1,3 @@
-version: '3'
 services:
   web:
     build:
@@ -10,7 +9,7 @@ services:
     ports:
       - "8069:8069"
     volumes:
-      #- ./custom-addons:/mnt/extra-addons
+      - ./custom-addons:/mnt/extra-addons
       - odoo-web-data:/var/lib/odoo
     environment:
       - HOST=db
